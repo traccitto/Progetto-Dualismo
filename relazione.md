@@ -1,10 +1,10 @@
 # DUALISMO
 
-Il progetto Dualismo creato da Traccitto trasforma un conflitto psicologico in un'esperienza che si può vedere e ascoltare, simulando la dinamica di un litigio umano attraverso luci e suoni. L'opera mette in scena uno scontro basato sulla dialettica degli opposti, dove il linguaggio è fatto di frequenze sonore e forme geometriche che si modificano.
+Il progetto Dualismo trasforma un conflitto psicologico in un'esperienza che si può vedere e ascoltare, simulando la dinamica di un litigio umano attraverso luci e suoni. L'opera mette in scena uno scontro basato sulla dialettica degli opposti, dove il linguaggio è fatto di frequenze sonore e forme geometriche che si modificano.
 
-- Da un lato troviamo la Personalità Rossa, che rappresenta l'istinto e si esprime con suoni acuti e pungenti per comunicare un'emozione immediata.
+Da un lato troviamo la Personalità Rossa, che rappresenta l'istinto e si esprime con suoni acuti e pungenti per comunicare un'emozione immediata.
 
-- Dall'altro c'è la Personalità Blu, che rappresenta la ragione e usa frequenze costanti e regolari, simbolo di controllo e logica.
+ Dall'altro c'è la Personalità Blu, che rappresenta la ragione e usa frequenze costanti e regolari, simbolo di controllo e logica.
 
 ![Due personalità](due personalità.png)
 
@@ -91,3 +91,8 @@ uint32_t applyBrightness(uint32_t c, int b) {
   return strip.Color((r * b) / 255, (g * b) / 255, (bl * b) / 255);
 }
 ```
+---
+
+Creato da: Manuela Traccitto
+ABAFR Media Art
+2026/2027

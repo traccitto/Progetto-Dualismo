@@ -10,7 +10,11 @@ body {
     height: 100vh;
     cursor: none;
     position: relative;
-    font-family: sans-serif;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-family: 'Roboto', sans-serif;
 }
 
 body.intro-page,
@@ -374,6 +378,7 @@ button {
     padding: 20px;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    font-family: 'Roboto', sans-serif;
 }
 
 .relation-content::-webkit-scrollbar {
@@ -393,7 +398,7 @@ button {
 
 #relation-panel p {
     margin: 1.6rem 0;
-    opacity: 0.85;
+    color: #ffffff;
     line-height: 1.8;
     font-size: 1rem;
     letter-spacing: 0.03em;
@@ -436,12 +441,14 @@ button {
 #relation-panel .scroll-body ul {
     padding-left: 1.2rem;
     margin: 0.6rem 0 1rem 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 #relation-panel .scroll-body li {
     margin: 0.8rem 0;
     line-height: 1.6;
     color: #ffffff;
+    font-family: 'Roboto', sans-serif;
 }
 
 #relation-panel .scroll-body li::marker { color: #ffffff; }
@@ -483,6 +490,15 @@ button {
     background: linear-gradient(90deg, rgba(0,122,255,0), rgba(0,122,255,0.8), rgba(255,59,48,0.8), rgba(255,59,48,0));
     margin: 2rem 0;
     position: relative;
+}
+
+#relation-panel .scroll-body hr.relation-divider + p,
+#relation-panel .scroll-body hr.relation-divider + p + p,
+#relation-panel .scroll-body hr.relation-divider + p + p + p {
+    margin: 0.1rem 0;
+    line-height: 1.2;
+    opacity: 0.72;
+    color: rgba(255, 255, 255, 0.72);
 }
 
 #relation-panel .scroll-body hr.relation-divider::before {
