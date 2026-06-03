@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esperienza Interattiva</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/addons/p5.sound.min.js"></script>
+
+    <script src="https://unpkg.com/ml5@1.2.1/dist/ml5.min.js"></script>
+
+    <script src="p5.webserial.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body class="experience-page">
+    <a id="back-toggle" href="#" aria-label="Torna indietro">
+      <img src="back.png" alt="Indietro" class="relation-icon">
+    </a>
+    <a id="audio-toggle" href="#" aria-label="Audio disattivato">
+      <img src="volume off.png" alt="Audio off" class="audio-icon">
+    </a>
+    <div id="vs-overlay">VS</div>
+
+    <script src="ExperienceManager.js"></script>
+    <script src="EnergyParticle.js"></script>
+    <script src="HandOscillator.js"></script>
+    <script src="sketch.js"></script>
+    <script>
+      let audioEnabled = false;
+
+      function updateAudioToggle() {
+        const audioToggle = document.getElementById('audio-toggle');
+        const icon = audioToggle.querySelector('.audio-icon');
+        icon.src = audioEnabled ? 'volume on.png' : 'volume off.png';
+        audioToggle.classList.toggle('enabled', audioEnabled);
+        audioToggle.setAttribute('aria-label', audioEnabled ? 'Audio attivo' : 'Audio disattivato');
+        icon.alt = audioEnabled ? 'Audio on' : 'Audio off';
+      }
+
+      function setOscillatorAudio(enabled) {
+        audioEnabled = enabled;
+        window.audioEnabled = enabled;
+        if (!enabled) {
+          if (window.oscSX) window.oscSX.stop();
+          if (window.oscDX) window.oscDX.stop();
+        } else if (typeof userStartAudio === 'function') {
+          userStartAudio();
+        }
+        updateAudioToggle();
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const backToggle = document.getElementById('back-toggle');
+        const audioToggle = document.getElementById('audio-toggle');
+
+        backToggle.addEventListener('click', (event) => {
+          event.preventDefault();
+          window.location.href = 'index.html';
+        });
+
+        audioToggle.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setOscillatorAudio(!audioEnabled);
+        });
+
+        window.audioEnabled = false;
+        updateAudioToggle();
+      });
+    </script>
+  </body>
+</html>

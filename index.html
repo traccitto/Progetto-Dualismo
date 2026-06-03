@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUALISMO</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="DUALISMO, Esperienza Interattiva di Manuela Traccitto" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Un progetto interattivo che esplora il fragile legame tra logica ed emozione, traducendo la dinamica di un litigio umano attraverso movimenti delle mani, suoni e Arduino" />
+    <meta property="og:url" content="https://dualismo.netlify.app" />
+    <meta property="og:image" content="https://dualismo.netlify.app/preview.png" />
+    <meta property="og:site_name" content="DUALISMO" />
+------------------------------------------------------------------
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DUALISMO, Esperienza Interattiva di Manuela Traccitto" />
+    <meta name="twitter:description" content="Un progetto interattivo che esplora il fragile legame tra logica ed emozione, traducendo la dinamica di un litigio umano attraverso movimenti delle mani, suoni e Arduino" />
+    <meta name="twitter:image" content="https://dualismo.netlify.app/preview.png" />
+--------------------------------------------------------------- -- 
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body class="intro-page">
+    <audio id="bg-audio" src="ethereal.mp3" loop style="display:none"></audio>
+    <div id="home-overlay">
+      <div class="home-inner">
+        <h1>DUALISMO</h1>
+        <p id="intro-text" class="home-text hidden">Progetto di Traccitto Manuela</p>
+      </div>
+    </div>
+
+    <a id="relation-toggle" href="#" aria-label="Relazione">
+      <img src="pen.png" alt="Relazione" class="relation-icon">
+    </a>
+    <a id="audio-toggle" href="#" aria-label="Audio disattivato">
+      <img src="volume off.png" alt="Audio off" class="audio-icon">
+    </a>
+<section id="relation-panel" class="hidden">
+  <div class="relation-content">
+    <div class="scroll-body">
+      <p>Il progetto Dualismo creato da Traccitto trasforma un conflitto psicologico in un'esperienza che si può vedere e ascoltare, simulando la dinamica di un litigio umano attraverso luci e suoni. L'opera mette in scena uno scontro basato sulla dialettica degli opposti, dove il linguaggio è fatto di frequenze sonore e forme geometriche che si modificano.</p>
+
+      <ul>
+        <li>Da un lato troviamo la Personalità Rossa, che rappresenta l'istinto e si esprime con suoni acuti e pungenti per comunicare un'emozione immediata.</li>
+        <li>Dall'altro c'è la Personalità Blu, che rappresenta la ragione e usa frequenze costanti e regolari, simbolo di controllo e logica.</li>
+      </ul>
+
+      <h3>L'interazione</h3>
+      <p>Il controllo avviene tramite il movimento delle mani, tracciato da appositi sensori. Allontanando il pollice dall'indice si mima il gesto di aprire la bocca: più le dita si distanziano, più il suono diventa forte e la forma visiva sullo schermo si ingrandisce. Questa interazione si può vivere in due modi, ovvero da soli, controllando l'istinto con una mano e la ragione con l'altra per mettere in scena una lotta interiore, oppure in due giocatori, dando vita a una vera e propria discussione tra due persone.</p>
+
+      <h3>Il cuore del litigio</h3>
+      <p>Il cuore del litigio si esprime attraverso il modo in cui i due elementi invadono lo spazio dell'altro. Il cerchio visivo perde la sua forma regolare e mostra bordi frastagliati che descrivono graficamente l'alzarsi dei toni. Chi invade il territorio dell'avversario diventa più aggressivo, ma nel momento in cui le mani dei partecipanti si allontanano, la tensione svanisce e le forme tornano geometricamente calme, simulando la pace dopo un litigio.</p>
+
+      <h3>INTEGRAZIONE CON ARDUINO (opzionale)</h3>
+      <p>Infine, è opzionale l'uso di Arduino e i led, che portano l'esperienza fuori dallo schermo e dentro la stanza. L'ambiente viene diviso a metà dalle luci rosse e blu, che si fanno più intense e si spostano verso il centro man mano che i partecipanti "parlano" aprendo le dita. Quando le due personalità si scontrano e si sovrappongono, il sistema genera un flash luminoso, segnando il culmine dello scontro.</p>
+
+      <p>Dualismo esplora il fragile legame tra logica ed emozione, usando un'estetica semplice per far riflettere su come il confronto non debba portare alla distruzione dell'altro, ma alla comprensione della tensione che nasce da ogni incontro.</p>
+
+      <h3>CODICE ARDUINO</h3>
+      <pre><code>#include 
+
+#define PIN        6
+#define NUMPIXELS 200 
+
+Adafruit_NeoPixel strip(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+void setup() {
+  Serial.begin(9600);
+  strip.begin();
+  strip.setBrightness(150);
+  strip.show();
+}
+
+void loop() {
+  if (Serial.available() >= 3) {
+    int valSX = Serial.read(); 
+    int valDX = Serial.read(); 
+    int ins = Serial.read();
+
+    strip.clear();
+
+    //MANO SINISTRA
+    int qSX = (valSX > 100) ? valSX - 101 : valSX;
+    uint32_t colSX = (valSX > 100) ? strip.Color(150, 0, 255) : strip.Color(255, 0, 0);
+
+    //MANO DESTRA 
+    int qDX = (valDX > 100) ? valDX - 101 : valDX;
+    uint32_t colDX = (valDX > 100) ? strip.Color(0, 255, 0) : strip.Color(0, 0, 255);
+
+    //DISEGNO SINISTRA (0 -> 100) ---
+    if (qSX > 0) {
+      for (int i = 0; i  0) ? random(150, 255) : 255;
+          strip.setPixelColor(i, applyBrightness(colSX, br));
+        }
+      }
+    }
+
+    //DISEGNO DESTRA (199 -> 100) 
+    if (qDX > 0) {
+      for (int i = 0; i  0) ? random(150, 255) : 255;
+          strip.setPixelColor(currentLed, applyBrightness(colDX, br));
+        }
+      }
+    }
+
+    // CENTRALE 
+    if (qSX >= 98 && qDX >= 98) {
+       strip.setPixelColor(99, colSX);
+       strip.setPixelColor(100, colDX);
+    }
+
+    strip.show();
+  }
+}
+
+uint32_t applyBrightness(uint32_t c, int b) {
+  uint8_t r = (uint8_t)(c >> 16), g = (uint8_t)(c >> 8), bl = (uint8_t)c;
+  return strip.Color((r * b) / 255, (g * b) / 255, (bl * b) / 255);
+}
+</code></pre>
+    </div>
+  </div>
+</section>
+
+    <script>
+      let introVisible = false;
+      let relationOpen = false;
+
+      // Fade in/out audio helpers
+      function fadeAudio(audio, from, to, duration) {
+        const steps = 30;
+        const stepTime = duration / steps;
+        let currentStep = 0;
+        const diff = to - from;
+        audio.volume = from;
+        function step() {
+          currentStep++;
+          audio.volume = from + (diff * (currentStep / steps));
+          if (currentStep < steps) setTimeout(step, stepTime);
+        }
+        step();
+      }
+
+      function enableHomeOverlay() {
+        const homeOverlay = document.getElementById('home-overlay');
+        const introText = document.getElementById('intro-text');
+        const relationToggle = document.getElementById('relation-toggle');
+        const relationPanel = document.getElementById('relation-panel');
+        const bgAudio = document.getElementById('bg-audio');
+
+        if (bgAudio) {
+          bgAudio.volume = 0;
+          bgAudio.pause();
+        }
+
+        // Fade out all'uscita pagina
+        window.addEventListener('beforeunload', () => {
+          if (bgAudio) fadeAudio(bgAudio, bgAudio.volume, 0, 1200);
+        });
+
+        // Mostra "introduzione al progetto" dopo 3 secondi
+        setTimeout(() => {
+          if (!introVisible) {
+            introText.classList.remove('hidden');
+            introVisible = true;
+          }
+        }, 3000);
+
+        const homeTitle = document.querySelector('#home-overlay h1');
+        if (homeTitle) {
+          homeTitle.addEventListener('click', () => {
+            if (relationOpen) return;
+            if (!introVisible) return;
+            window.location.href = 'esperienza.html';
+          });
+        }
+
+        relationToggle.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (relationOpen) {
+            relationPanel.classList.add('hidden');
+            relationToggle.classList.remove('open');
+            relationOpen = false;
+          } else {
+            relationPanel.classList.remove('hidden');
+            relationToggle.classList.add('open');
+            relationOpen = true;
+          }
+        });
+
+        const audioToggle = document.getElementById('audio-toggle');
+        let audioEnabled = false;
+        const audioIcons = {
+          on: 'volume on.png',
+          off: 'volume off.png'
+        };
+
+        function updateAudioToggle() {
+          audioToggle.classList.toggle('enabled', audioEnabled);
+          const icon = audioToggle.querySelector('.audio-icon');
+          icon.src = audioEnabled ? audioIcons.on : audioIcons.off;
+          audioToggle.setAttribute('aria-label', audioEnabled ? 'Audio attivo' : 'Audio disattivato');
+          icon.alt = audioEnabled ? 'Audio on' : 'Audio off';
+        }
+
+        audioToggle.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          audioEnabled = !audioEnabled;
+          if (bgAudio) {
+            if (audioEnabled) {
+              bgAudio.currentTime = 0;
+              bgAudio.volume = 0;
+              bgAudio.loop = true;
+              bgAudio.play().catch(err => console.log('Impossibile avviare audio:', err));
+              fadeAudio(bgAudio, 0, 0.58, 500);
+            } else {
+              fadeAudio(bgAudio, bgAudio.volume, 0, 500);
+              setTimeout(() => {
+                bgAudio.pause();
+              }, 520);
+            }
+          }
+
+          updateAudioToggle();
+        });
+
+        updateAudioToggle();
+
+          // Carica e rende il contenuto Markdown della relazione
+          function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          }
+
+          function highlightCpp(code) {
+            // semplice evidenziazione per parole chiave C/C++
+            let s = escapeHtml(code);
+            const keywords = ['#include','#define','int','void','uint8_t','uint32_t','for','if','else','return','while'];
+            keywords.forEach(k => {
+              const re = new RegExp('\\b' + k.replace(/[#]/g, '\\#') + '\\b', 'g');
+              s = s.replace(re, '<span class="code-kw">' + k + '</span>');
+            });
+            // evidenzia i numeri
+            s = s.replace(/(\b\d+\b)/g, '<span class="code-num">$1</span>');
+            return s;
+          }
+
+          function mdToHtml(md) {
+            md = md.replace(/\r/g, '');
+            const lines = md.split('\n');
+            let html = '';
+            let inList = false;
+            let inCode = false;
+            let codeBuffer = '';
+
+            function renderInline(text) {
+              const startToken = '___BLU_START___';
+              const endToken = '___BLU_END___';
+              // usa split/join per evitare problemi con i delimitatori / nelle regex
+              let t = text.split('<span class="blu">').join(startToken).split('</span>').join(endToken);
+              t = escapeHtml(t);
+              t = t.split(startToken).join('<span class="blu">').split(endToken).join('</span>');
+              return t;
+            }
+
+            for (let rawLine of lines) {
+              const line = rawLine;
+
+              // gestisci immagine in formato Markdown: ![alt](src)
+              const imgMatch = line.match(/^!\[(.*?)\]\((.*?)\)/);
+              if (imgMatch) {
+                const alt = escapeHtml(imgMatch[1]);
+                const src = encodeURI(imgMatch[2]);
+                html += '<p><img src="' + src + '" alt="' + alt + '" class="relation-image"></p>';
+                continue;
+              }
+
+              if (line.startsWith('```')) {
+                if (!inCode) { inCode = true; codeBuffer = ''; continue; }
+                // chiudi code block
+                inCode = false;
+                html += '<pre><code class="language-cpp">' + highlightCpp(codeBuffer) + '</code></pre>';
+                continue;
+              }
+
+              if (inCode) { codeBuffer += line + '\n'; continue; }
+
+              if (/^#{1,6}\s+/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                const level = line.match(/^#+/)[0].length;
+                const text = line.replace(/^#+\s+/, '');
+                html += '<h' + level + '>' + renderInline(text) + '</h' + level + '>';
+                continue;
+              }
+
+              if (/^\s*-\s+/.test(line)) {
+                if (!inList) { inList = true; html += '<ul>'; }
+                const item = line.replace(/^\s*-\s+/, '');
+                html += '<li>' + renderInline(item) + '</li>';
+                continue;
+              }
+
+              if (/^\s*([-*_])\1{2,}\s*$/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += '<hr class="relation-divider">';
+                continue;
+              }
+
+              if (line.trim() === '') {
+                if (inList) { html += '</ul>'; inList = false; }
+                continue;
+              }
+
+              html += '<p>' + renderInline(line) + '</p>';
+            }
+
+            if (inList) html += '</ul>';
+            return html;
+          }
+
+          function renderRelationMarkdown() {
+            const container = document.querySelector('#relation-panel .scroll-body');
+            if (!container) return;
+            fetch('relazione.md').then(r => {
+              if (!r.ok) throw new Error('Impossibile caricare relazione.md');
+              return r.text();
+            }).then(md => {
+              container.innerHTML = mdToHtml(md);
+            }).catch(err => {
+              console.log('Errore caricamento relazione.md:', err);
+            });
+          }
+
+          // Esegui il rendering del Markdown appena la UI è pronta
+          renderRelationMarkdown();
+
+      }
+
+      document.addEventListener('DOMContentLoaded', enableHomeOverlay);
+    </script>
+  </body>
+</html>

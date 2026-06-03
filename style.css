@@ -1,0 +1,531 @@
+/* --- IMPOSTAZIONI GLOBALI --- */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #020205;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    cursor: none;
+    position: relative;
+    font-family: sans-serif;
+}
+
+body.intro-page,
+body.experience-page {
+    cursor: auto;
+}
+
+/* Luce Blu a Sinistra */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(0, 100, 255, 0.4) 0%, rgba(0, 0, 0, 0) 60%);
+    z-index: -1;
+}
+
+/* Luce Rossa a Destra */
+body::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 50%, rgba(255, 50, 0, 0.4) 0%, rgba(0, 0, 0, 0) 60%);
+    z-index: -1;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: transparent !important;
+}
+
+video {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* --- ELEMENTI DI INTERFACCIA --- */
+button {
+    background: rgba(255, 255, 255, 0.05); 
+    color: #ccc;
+    border: 1px solid rgba(255,255,255,0.2); 
+    border-radius: 4px;
+    cursor: crosshair !important; 
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.connect-arduino-btn {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    font-size: 1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18);
+    z-index: 2000;
+    cursor: pointer !important;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.connect-arduino-btn .arduino-logo {
+    width: 28px;
+    height: 28px;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+}
+
+#footer-text {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    z-index: 999;
+    pointer-events: none;
+    transition: opacity 1s ease;
+    opacity: 0;
+}
+
+.show-footer {
+    opacity: 1 !important;
+}
+
+#vs-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 80px; 
+    font-weight: 900; 
+    letter-spacing: -5px;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.show-vs {
+    opacity: 1 !important;
+    animation: pulseVS 3s infinite ease-in-out;
+}
+
+/* --- SCHERMATA HOME / OVERLAY --- */
+#home-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: auto;
+}
+
+#home-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(90deg,
+        rgba(0, 100, 255, 0.18) 0%,
+        rgba(0, 100, 255, 0.10) 30%,
+        rgba(255, 50, 0, 0.10) 70%,
+        rgba(255, 50, 0, 0.18) 100%
+    );
+}
+
+#home-overlay .home-inner {
+    text-align: center;
+    color: #fff;
+    padding: 0 24px;
+}
+
+/* SCRITTA PRINCIPALE: Cristallizzata e immobile */
+#home-overlay h1 {
+    margin: 0;
+    font-size: clamp(4rem, 12vw, 8rem);
+    letter-spacing: 0.35em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
+    outline: none;
+    caret-color: transparent;
+}
+
+#home-overlay h1:hover {
+    cursor: pointer;
+}
+
+/* ALONE DIETRO: È l'unico elemento che pulsa */
+#home-overlay h1::after {
+    content: "DUALISMO"; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: transparent; 
+    z-index: -1; 
+    pointer-events: none;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    animation: alonePulsing 3s ease-in-out infinite;
+}
+
+.home-text {
+    margin: 1.2rem auto 0;
+    font-size: 1rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.home-text#start-hint {
+    font-size: 0.9rem;
+    opacity: 0.45;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(0.25rem);
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* --- PANNELLO RELAZIONE --- */
+#relation-toggle {
+    position: absolute;
+    left: 50%;
+    bottom: 34px;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+}
+
+#relation-toggle:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 0 20px rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+#relation-toggle .relation-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+#relation-toggle.open::after {
+    content: '×';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: rgba(255,255,255,0.95);
+}
+
+#relation-toggle.open .relation-icon {
+    opacity: 0;
+}
+
+#back-toggle {
+    position: absolute;
+    left: 24px;
+    top: 28px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    z-index: 1200;
+    text-decoration: none;
+}
+
+#back-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.22);
+}
+
+#back-toggle .relation-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+#audio-toggle {
+    position: absolute;
+    left: 24px;
+    bottom: 28px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    z-index: 1200;
+    text-decoration: none;
+}
+
+#audio-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.22);
+}
+
+#audio-toggle.enabled {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+#audio-toggle .audio-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: brightness(1.1) invert(1);
+}
+
+#relation-panel {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.96);
+    color: #fff;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 32px 120px 32px;
+    z-index: 1100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+#relation-panel:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.relation-content {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    text-align: left;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.relation-content::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-body {
+    padding-top: 20px;
+}
+
+#relation-panel h1 {
+    font-size: clamp(3rem, 7vw, 5rem);
+    letter-spacing: 0.35em;
+    margin: 0 0 1.5rem;
+    text-transform: uppercase;
+}
+
+#relation-panel p {
+    margin: 1.6rem 0;
+    opacity: 0.85;
+    line-height: 1.8;
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+}
+
+/* Stili colorati per il contenuto Markdown della Relazione */
+#relation-panel .scroll-body h1,
+#relation-panel .scroll-body h2,
+#relation-panel .scroll-body h3 {
+    margin: 0.8rem 0 1.2rem 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+/* Sfumatura blu -> rosso per il titolo principale */
+#relation-panel .scroll-body h1 {
+    background: linear-gradient(90deg, #007aff 0%, #ff3b30 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: block;
+    margin: 0 auto 1.2rem auto;
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+#relation-panel .scroll-body h2 { color: #007aff; font-size: clamp(1.4rem, 3.6vw, 1.8rem); margin-bottom: 1.6rem; }
+#relation-panel .scroll-body h3 { color: #ff9500; font-size: 1.1rem; margin-bottom: 1.2rem; }
+
+/* Colore specifico per la voce Blu */
+.blu { color: #007aff; font-weight: 600; }
+
+/* Stili per evidenziazione codice semplice */
+.code-kw { color: #7be1ff; font-weight: 700; }
+.code-num { color: #ffd580; }
+.language-cpp { display: block; white-space: pre; font-family: monospace; }
+
+#relation-panel .scroll-body ul {
+    padding-left: 1.2rem;
+    margin: 0.6rem 0 1rem 0;
+}
+
+#relation-panel .scroll-body li {
+    margin: 0.8rem 0;
+    line-height: 1.6;
+    color: #ffffff;
+}
+
+#relation-panel .scroll-body li::marker { color: #ffffff; }
+
+#relation-panel .scroll-body p {
+    margin: 2rem 0;
+}
+
+#relation-panel .scroll-body img.relation-image {
+    display: block;
+    margin: 1rem auto 3rem auto;
+    max-width: 60%;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+#relation-panel .scroll-body pre { 
+    background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(10,10,10,0.85));
+    border-left: 6px solid rgba(255,255,255,0.06);
+    padding: 12px;
+    border-radius: 6px;
+    overflow: auto;
+    color: #e6e6e6;
+}
+
+#relation-panel .scroll-body code {
+    background: rgba(255,255,255,0.04);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #ffd966;
+}
+
+#relation-panel .scroll-body pre code { color: #fff; }
+
+#relation-panel .scroll-body hr.relation-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0,122,255,0), rgba(0,122,255,0.8), rgba(255,59,48,0.8), rgba(255,59,48,0));
+    margin: 2rem 0;
+    position: relative;
+}
+
+#relation-panel .scroll-body hr.relation-divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0,122,255,0.35), rgba(0,122,255,0.8), rgba(255,59,48,0.8), rgba(255,59,48,0.35));
+    filter: blur(2px);
+    transform: translateY(-50%);
+}
+
+#relation-panel .scroll-body hr.relation-divider::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(0,122,255,0.8) 40%, rgba(255,59,48,0.8) 100%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* --- ANIMAZIONI KEYFRAMES --- */
+@keyframes alonePulsing {
+    0%, 100% {
+        text-shadow:
+            0 0 12px rgba(255, 255, 255, 0.45),
+            0 0 28px rgba(255, 255, 255, 0.18),
+            0 0 48px rgba(255, 255, 255, 0.08);
+    }
+    50% {
+        text-shadow:
+            0 0 25px rgba(255, 255, 255, 0.75),
+            0 0 55px rgba(255, 255, 255, 0.35),
+            0 0 85px rgba(255, 255, 255, 0.15);
+    }
+}
+
+@keyframes pulseVS {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+}
