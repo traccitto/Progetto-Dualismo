@@ -149,6 +149,16 @@ button {
     justify-content: center;
     align-items: center;
     cursor: auto;
+    overflow: hidden;
+}
+
+#home-overlay canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
 }
 
 #home-overlay::before {
@@ -168,10 +178,81 @@ button {
     );
 }
 
+#home-overlay::after {
+    content: "";
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%) scale(1);
+    width: 130vmin; /* visual reference size */
+    height: 130vmin;
+    border-radius: 50%;
+    background: transparent;
+    pointer-events: none;
+    z-index: 2;
+    transform-origin: center;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-sizing: border-box;
+    /* inset box-shadows create an inward trail (scia) coming from the outer stroke - multiple very thin contours */
+    box-shadow:
+        0 0 0 0 rgba(255,255,255,0.12) inset,
+        0 0 0 0.4vmin rgba(255,255,255,0.09) inset,
+        0 0 0 0.8vmin rgba(255,255,255,0.07) inset,
+        0 0 0 1.2vmin rgba(255,255,255,0.055) inset,
+        0 0 0 1.8vmin rgba(255,255,255,0.04) inset,
+        0 0 0 2.6vmin rgba(255,255,255,0.025) inset;
+    animation: pulseOuter 4s ease-in-out infinite, ringTrail 3.6s linear infinite;
+}
+
+/* pulse outer circle between 140vmin and 130vmin using scale */
+@keyframes pulseOuter {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(0.9285714286); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* animate inset box-shadow spreads so the trail looks like it contracts inward from the outer stroke */
+@keyframes ringTrail {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255,255,255,0.12) inset,
+                    0 0 0 2.6vmin rgba(255,255,255,0.025) inset,
+                    0 0 0 1.8vmin rgba(255,255,255,0.04) inset,
+                    0 0 0 1.2vmin rgba(255,255,255,0.055) inset,
+                    0 0 0 0.8vmin rgba(255,255,255,0.07) inset,
+                    0 0 0 0.4vmin rgba(255,255,255,0.09) inset;
+        opacity: 1;
+    }
+    50% {
+        box-shadow: 0 0 0 0.2vmin rgba(255,255,255,0.12) inset,
+                    0 0 0 1.2vmin rgba(255,255,255,0.025) inset,
+                    0 0 0 0.9vmin rgba(255,255,255,0.04) inset,
+                    0 0 0 0.6vmin rgba(255,255,255,0.055) inset,
+                    0 0 0 0.45vmin rgba(255,255,255,0.07) inset,
+                    0 0 0 0.25vmin rgba(255,255,255,0.09) inset;
+        opacity: 0.78;
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255,255,255,0.12) inset,
+                    0 0 0 2.6vmin rgba(255,255,255,0.025) inset,
+                    0 0 0 1.8vmin rgba(255,255,255,0.04) inset,
+                    0 0 0 1.2vmin rgba(255,255,255,0.055) inset,
+                    0 0 0 0.8vmin rgba(255,255,255,0.07) inset,
+                    0 0 0 0.4vmin rgba(255,255,255,0.09) inset;
+        opacity: 1;
+    }
+}
+
 #home-overlay .home-inner {
     text-align: center;
     color: #fff;
     padding: 0 24px;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 /* SCRITTA PRINCIPALE: Cristallizzata e immobile */
@@ -191,6 +272,7 @@ button {
     cursor: default;
     outline: none;
     caret-color: transparent;
+    transform-origin: center center;
 }
 
 #home-overlay h1:hover {
@@ -210,6 +292,7 @@ button {
     pointer-events: none;
     letter-spacing: inherit;
     text-transform: inherit;
+    transform-origin: center center;
     animation: alonePulsing 3s ease-in-out infinite;
 }
 
@@ -242,31 +325,59 @@ button {
     bottom: 34px;
     transform: translateX(-50%);
     width: 60px;
+    min-width: 60px;
     height: 60px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.14);
     border: 1px solid rgba(255,255,255,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: width 0.3s ease, border-radius 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     z-index: 1200;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    color: rgba(255,255,255,0.9);
+    overflow: hidden;
+    padding: 0 16px;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.95);
     text-decoration: none;
 }
 
+#relation-toggle::after {
+    content: '';
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    white-space: nowrap;
+    color: rgba(255,255,255,0.95);
+    transform: translateX(-6px);
+}
+
 #relation-toggle:hover {
-    transform: translateX(-50%) scale(1.05);
-    box-shadow: 0 0 20px rgba(255,255,255,0.15);
-    background: rgba(255, 255, 255, 0.2);
+    width: 170px;
+    border-radius: 30px;
+}
+
+#relation-toggle:hover::after {
+    content: 'relazione';
+    opacity: 1;
+    transform: translateX(0);
 }
 
 #relation-toggle .relation-icon {
+    position: absolute;
     width: 28px;
     height: 28px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
     object-fit: contain;
     filter: brightness(0) saturate(100%) invert(1);
+}
+
+#relation-toggle:hover .relation-icon {
+    opacity: 0;
+    transform: scale(0.2);
 }
 
 #relation-toggle.open::after {
@@ -278,6 +389,13 @@ button {
     justify-content: center;
     font-size: 1.8rem;
     color: rgba(255,255,255,0.95);
+    opacity: 1;
+    transform: none;
+}
+
+#relation-toggle.open:hover::after {
+    content: '×';
+    opacity: 1;
 }
 
 #relation-toggle.open .relation-icon {
@@ -360,25 +478,47 @@ button {
     z-index: 1100;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease;
+    transform: translateY(48px) scale(0.98);
+    transition: opacity 0.36s cubic-bezier(0.23, 1, 0.32, 1), transform 0.36s cubic-bezier(0.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 #relation-panel:not(.hidden) {
     opacity: 1;
     pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+#relation-panel pre,
+#relation-panel code,
+#relation-panel .scroll-body pre,
+#relation-panel .scroll-body code {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 
 .relation-content {
-    max-width: 1100px;
+    max-width: 1000px;
     width: 100%;
     position: relative;
     text-align: left;
     max-height: 80vh;
     overflow-y: auto;
-    padding: 20px;
+    padding: 32px 40px;
     scrollbar-width: none;
     -ms-overflow-style: none;
     font-family: 'Roboto', sans-serif;
+}
+
+.scroll-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 20px 0;
 }
 
 .relation-content::-webkit-scrollbar {
@@ -455,6 +595,7 @@ button {
 
 #relation-panel .scroll-body p {
     margin: 2rem 0;
+    text-align: justify;
 }
 
 #relation-panel .scroll-body img.relation-image {
@@ -468,10 +609,12 @@ button {
 #relation-panel .scroll-body pre { 
     background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(10,10,10,0.85));
     border-left: 6px solid rgba(255,255,255,0.06);
-    padding: 12px;
+    padding: 14px 14px 14px 14px;
+    padding-top: 52px;
     border-radius: 6px;
     overflow: auto;
     color: #e6e6e6;
+    position: relative;
 }
 
 #relation-panel .scroll-body code {
@@ -480,6 +623,60 @@ button {
     border-radius: 4px;
     font-family: monospace;
     color: #ffd966;
+}
+
+.relation-code-wrap {
+    position: relative;
+}
+
+.copy-code-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer !important;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 2;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+.copy-code-btn:hover {
+    background: rgba(255,255,255,0.28);
+    transform: translateY(-1px);
+}
+
+.copy-code-btn .copy-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+    filter: invert(1) brightness(1.2);
+    margin: 0;
+}
+
+.copy-code-btn .copy-label {
+    display: none;
+}
+
+.relation-footer {
+    margin-top: 1.2rem;
+    opacity: 0.56;
+    font-size: 0.88rem;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.56);
+    line-height: 1.2;
+}
+
+.relation-footer p {
+    margin: 0.35rem 0;
 }
 
 #relation-panel .scroll-body pre code { color: #fff; }
@@ -495,10 +692,12 @@ button {
 #relation-panel .scroll-body hr.relation-divider + p,
 #relation-panel .scroll-body hr.relation-divider + p + p,
 #relation-panel .scroll-body hr.relation-divider + p + p + p {
-    margin: 0.1rem 0;
-    line-height: 1.2;
-    opacity: 0.72;
-    color: rgba(255, 255, 255, 0.72);
+    margin: 0.15rem 0;
+    line-height: 1.1;
+    opacity: 0.56;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 0.88rem;
+    letter-spacing: 0.16em;
 }
 
 #relation-panel .scroll-body hr.relation-divider::before {

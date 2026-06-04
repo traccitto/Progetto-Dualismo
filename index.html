@@ -27,6 +27,7 @@
   <body class="intro-page">
     <audio id="bg-audio" src="ethereal.mp3" loop style="display:none"></audio>
     <div id="home-overlay">
+      <canvas id="particle-canvas" aria-hidden="true"></canvas>
       <div class="home-inner">
         <h1>DUALISMO</h1>
         <p id="intro-text" class="home-text hidden">Progetto di Traccitto Manuela</p>
@@ -61,7 +62,12 @@
       <p>Dualismo esplora il fragile legame tra logica ed emozione, usando un'estetica semplice per far riflettere su come il confronto non debba portare alla distruzione dell'altro, ma alla comprensione della tensione che nasce da ogni incontro.</p>
 
       <h3>CODICE ARDUINO</h3>
-      <pre><code>#include 
+      <div class="relation-code-wrap">
+        <button id="copy-arduino-code" class="copy-code-btn" type="button" aria-label="Copia codice Arduino">
+          <img src="copy.png" alt="Copia" class="copy-icon">
+          <span class="copy-label">Copia</span>
+        </button>
+        <pre><code>#include 
 
 #define PIN        6
 #define NUMPIXELS 200 
@@ -122,6 +128,7 @@ uint32_t applyBrightness(uint32_t c, int b) {
   return strip.Color((r * b) / 255, (g * b) / 255, (bl * b) / 255);
 }
 </code></pre>
+      </div>
     </div>
   </div>
 </section>
@@ -188,6 +195,8 @@ uint32_t applyBrightness(uint32_t c, int b) {
             relationToggle.classList.remove('open');
             relationOpen = false;
           } else {
+            const scrollContainer = relationPanel.querySelector('.relation-content') || relationPanel;
+            scrollContainer.scrollTop = 0;
             relationPanel.classList.remove('hidden');
             relationToggle.classList.add('open');
             relationOpen = true;
@@ -233,6 +242,175 @@ uint32_t applyBrightness(uint32_t c, int b) {
         });
 
         updateAudioToggle();
+
+        function updateCopyButtonAppearance(button, icon, label) {
+          const iconEl = button.querySelector('.copy-icon');
+          const labelEl = button.querySelector('.copy-label');
+          if (iconEl) iconEl.src = icon;
+          if (labelEl) labelEl.textContent = label;
+        }
+
+        const copyArduinoButton = document.getElementById('copy-arduino-code');
+        const arduinoCodeBlock = document.querySelector('#relation-panel pre code');
+
+        if (copyArduinoButton && arduinoCodeBlock) {
+          const originalLabel = copyArduinoButton.querySelector('.copy-label')?.textContent || 'Copia';
+          copyArduinoButton.addEventListener('click', async () => {
+            const codeText = arduinoCodeBlock.innerText.trim();
+            try {
+              await navigator.clipboard.writeText(codeText);
+              updateCopyButtonAppearance(copyArduinoButton, 'check.png', 'Copiato');
+              setTimeout(() => {
+                updateCopyButtonAppearance(copyArduinoButton, 'copy.png', originalLabel);
+              }, 1400);
+            } catch (err) {
+              const textarea = document.createElement('textarea');
+              textarea.value = codeText;
+              textarea.style.position = 'fixed';
+              textarea.style.opacity = '0';
+              document.body.appendChild(textarea);
+              textarea.focus();
+              textarea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textarea);
+              updateCopyButtonAppearance(copyArduinoButton, 'check.png', 'Copiato');
+              setTimeout(() => {
+                updateCopyButtonAppearance(copyArduinoButton, 'copy.png', originalLabel);
+              }, 1400);
+            }
+          });
+        }
+
+        // Particle system: small white points outside the big circle, reacting to mouse movement
+        const particleCanvas = document.getElementById('particle-canvas');
+        const particleCtx = particleCanvas && particleCanvas.getContext('2d');
+        const particles = [];
+        const particleCount = 120;
+        const mouse = { x: 0, y: 0, active: false };
+        let particleWidth = 0;
+        let particleHeight = 0;
+
+        function randomBetween(min, max) {
+          return min + Math.random() * (max - min);
+        }
+
+        function circleRadius() {
+          return Math.min(particleWidth, particleHeight) * 0.7;
+        }
+
+        function createParticle() {
+          const angle = Math.random() * Math.PI * 2;
+          const maxDistance = Math.hypot(particleWidth, particleHeight) * 0.6;
+          const distance = circleRadius() + randomBetween(24, maxDistance);
+          const centerX = particleWidth * 0.5;
+          const centerY = particleHeight * 0.5;
+          const x = centerX + Math.cos(angle) * distance;
+          const y = centerY + Math.sin(angle) * distance;
+
+          return {
+            x,
+            y,
+            vx: (Math.random() - 0.5) * 2.5,
+            vy: (Math.random() - 0.5) * 2.5,
+            size: randomBetween(1.6, 3.4),
+            phase: Math.random() * Math.PI * 2,
+            alpha: randomBetween(0.18, 0.72)
+          };
+        }
+
+        function resizeParticleCanvas() {
+          if (!particleCanvas) return;
+          particleWidth = particleCanvas.width = window.innerWidth;
+          particleHeight = particleCanvas.height = window.innerHeight;
+        }
+
+        function resetParticles() {
+          particles.length = 0;
+          for (let i = 0; i < particleCount; i += 1) {
+            particles.push(createParticle());
+          }
+        }
+
+        function updateParticles() {
+          if (!particleCtx) return;
+          particleCtx.clearRect(0, 0, particleWidth, particleHeight);
+
+          const centerX = particleWidth * 0.5;
+          const centerY = particleHeight * 0.5;
+          const minDist = circleRadius() + 12;
+          const pointerRadius = 120;
+
+          for (const particle of particles) {
+            const dxMouse = particle.x - mouse.x;
+            const dyMouse = particle.y - mouse.y;
+            const distMouse = Math.hypot(dxMouse, dyMouse);
+            if (mouse.active && distMouse < pointerRadius) {
+              const push = (pointerRadius - distMouse) / pointerRadius * 0.75;
+              if (distMouse > 0) {
+                particle.vx += (dxMouse / distMouse) * push;
+                particle.vy += (dyMouse / distMouse) * push;
+              }
+            }
+
+            const dxCenter = particle.x - centerX;
+            const dyCenter = particle.y - centerY;
+            const distCenter = Math.hypot(dxCenter, dyCenter);
+            if (distCenter < minDist) {
+              const pushOut = (minDist - distCenter) * 0.08;
+              if (distCenter > 0) {
+                particle.vx += (dxCenter / distCenter) * pushOut;
+                particle.vy += (dyCenter / distCenter) * pushOut;
+              }
+            }
+
+            const floatAngle = particle.phase + Date.now() / 900;
+            particle.vx += Math.cos(floatAngle) * 0.06 + (Math.random() - 0.5) * 0.12;
+            particle.vy += Math.sin(floatAngle) * 0.06 + (Math.random() - 0.5) * 0.12;
+            particle.vx *= 0.94;
+            particle.vy *= 0.94;
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.alpha = 0.18 + Math.sin(Date.now() / 1000 + particle.phase) * 0.12;
+
+            if (
+              particle.x < -50 ||
+              particle.x > particleWidth + 50 ||
+              particle.y < -50 ||
+              particle.y > particleHeight + 50 ||
+              distCenter < circleRadius() * 0.98
+            ) {
+              Object.assign(particle, createParticle());
+            }
+
+            particleCtx.beginPath();
+            particleCtx.fillStyle = 'rgba(255,255,255,' + Math.min(Math.max(particle.alpha, 0.12), 0.78) + ')';
+            particleCtx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            particleCtx.fill();
+          }
+
+          requestAnimationFrame(updateParticles);
+        }
+
+        function trackMouse(event) {
+          const rect = homeOverlay.getBoundingClientRect();
+          mouse.x = event.clientX - rect.left;
+          mouse.y = event.clientY - rect.top;
+          mouse.active = true;
+        }
+
+        if (particleCanvas && particleCtx) {
+          resizeParticleCanvas();
+          resetParticles();
+          window.addEventListener('resize', () => {
+            resizeParticleCanvas();
+            resetParticles();
+          });
+          homeOverlay.addEventListener('pointermove', trackMouse);
+          homeOverlay.addEventListener('pointerleave', () => {
+            mouse.active = false;
+          });
+          updateParticles();
+        }
 
           // Carica e rende il contenuto Markdown della relazione
           function escapeHtml(str) {
@@ -322,7 +500,75 @@ uint32_t applyBrightness(uint32_t c, int b) {
             }
 
             if (inList) html += '</ul>';
+
+            // Avvolgi il footer finale Markdown sotto l'ultimo separatore per renderlo compatto e opaco
+            const footerSeparator = '<hr class="relation-divider">';
+            const parts = html.split(footerSeparator);
+            if (parts.length > 1) {
+              const beforeFooter = parts.slice(0, -1).join(footerSeparator);
+              let footerHtml = parts.slice(-1)[0].trim();
+              if (footerHtml.startsWith('<p>')) {
+                footerHtml = '<div class="relation-footer">' + footerHtml + '</div>';
+                html = beforeFooter + footerSeparator + footerHtml;
+              }
+            }
+
             return html;
+          }
+
+          function attachArduinoCopyButton(container) {
+            const codeBlocks = Array.from(container.querySelectorAll('pre code'));
+            if (!codeBlocks.length) return;
+
+            const arduinoBlock = codeBlocks.find(code => /#include|void setup\(|void loop\(/.test(code.innerText)) || codeBlocks[codeBlocks.length - 1];
+            const pre = arduinoBlock.closest('pre');
+            if (!pre) return;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relation-code-wrap';
+            const button = document.createElement('button');
+            button.id = 'copy-arduino-code';
+            button.type = 'button';
+            button.className = 'copy-code-btn';
+            button.setAttribute('aria-label', 'Copia codice Arduino');
+            button.innerHTML = '<img src="copy.png" alt="Copia" class="copy-icon"><span class="copy-label">Copia</span>';
+
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(button);
+            wrapper.appendChild(pre);
+
+            function updateCopyButtonAppearance(button, icon, label) {
+              const iconEl = button.querySelector('.copy-icon');
+              const labelEl = button.querySelector('.copy-label');
+              if (iconEl) iconEl.src = icon;
+              if (labelEl) labelEl.textContent = label;
+            }
+
+            button.addEventListener('click', async () => {
+              const codeText = arduinoBlock.innerText.trim();
+              const originalLabel = button.querySelector('.copy-label')?.textContent || 'Copia';
+              try {
+                await navigator.clipboard.writeText(codeText);
+                updateCopyButtonAppearance(button, 'check.png', 'Copiato');
+                setTimeout(() => {
+                  updateCopyButtonAppearance(button, 'copy.png', originalLabel);
+                }, 1400);
+              } catch (err) {
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                updateCopyButtonAppearance(button, 'check.png', 'Copiato');
+                setTimeout(() => {
+                  updateCopyButtonAppearance(button, 'copy.png', originalLabel);
+                }, 1400);
+              }
+            });
           }
 
           function renderRelationMarkdown() {
@@ -333,6 +579,7 @@ uint32_t applyBrightness(uint32_t c, int b) {
               return r.text();
             }).then(md => {
               container.innerHTML = mdToHtml(md);
+              attachArduinoCopyButton(container);
             }).catch(err => {
               console.log('Errore caricamento relazione.md:', err);
             });
