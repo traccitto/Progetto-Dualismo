@@ -1,4 +1,12 @@
 /* --- IMPOSTAZIONI GLOBALI --- */
+@font-face {
+    font-family: 'Roboto';
+    src: url('roboto-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -184,7 +192,7 @@ button {
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%) scale(1);
-    width: 130vmin; /* visual reference size */
+    width: 130vmin; 
     height: 130vmin;
     border-radius: 50%;
     background: transparent;
@@ -193,7 +201,6 @@ button {
     transform-origin: center;
     border: 1px solid rgba(255,255,255,0.12);
     box-sizing: border-box;
-    /* inset box-shadows create an inward trail (scia) coming from the outer stroke - multiple very thin contours */
     box-shadow:
         0 0 0 0 rgba(255,255,255,0.12) inset,
         0 0 0 0.4vmin rgba(255,255,255,0.09) inset,
@@ -204,14 +211,12 @@ button {
     animation: pulseOuter 4s ease-in-out infinite, ringTrail 3.6s linear infinite;
 }
 
-/* pulse outer circle between 140vmin and 130vmin using scale */
 @keyframes pulseOuter {
     0% { transform: translate(-50%, -50%) scale(1); }
     50% { transform: translate(-50%, -50%) scale(0.9285714286); }
     100% { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* animate inset box-shadow spreads so the trail looks like it contracts inward from the outer stroke */
 @keyframes ringTrail {
     0% {
         box-shadow: 0 0 0 0 rgba(255,255,255,0.12) inset,
@@ -255,7 +260,7 @@ button {
     min-height: 100vh;
 }
 
-/* SCRITTA PRINCIPALE: Cristallizzata e immobile */
+/* SCRITTA PRINCIPALE */
 #home-overlay h1 {
     margin: 0;
     font-size: clamp(4rem, 12vw, 8rem);
@@ -279,7 +284,7 @@ button {
     cursor: pointer;
 }
 
-/* ALONE DIETRO: È l'unico elemento che pulsa */
+/* ALONE DIETRO */
 #home-overlay h1::after {
     content: "DUALISMO"; 
     position: absolute;
@@ -353,6 +358,7 @@ button {
     white-space: nowrap;
     color: rgba(255,255,255,0.95);
     transform: translateX(-6px);
+    font-family: 'Roboto', sans-serif;
 }
 
 #relation-toggle:hover {
@@ -361,7 +367,7 @@ button {
 }
 
 #relation-toggle:hover::after {
-    content: 'relazione';
+    content: 'informazioni';
     opacity: 1;
     transform: translateX(0);
 }
@@ -567,16 +573,57 @@ button {
     font-size: clamp(2rem, 5vw, 3rem);
 }
 
-#relation-panel .scroll-body h2 { color: #007aff; font-size: clamp(1.4rem, 3.6vw, 1.8rem); margin-bottom: 1.6rem; }
-#relation-panel .scroll-body h3 { color: #ff9500; font-size: 1.1rem; margin-bottom: 1.2rem; }
+/* --- AGGIORNATO: GESTIONE SPAZIATURE E TITOLI MACRO SEZIONI --- */
+#relation-panel .scroll-body h1 { color: #00d9ff; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.6rem; }
+#relation-panel .scroll-body h2 { color: #007aff; font-size: clamp(1.4rem, 3.6vw, 1.8rem); margin-top: 4.5rem; margin-bottom: 1.6rem; }
+#relation-panel .scroll-body h3 { color: #ff3b30; font-size: 1.1rem; margin-top: 3rem; margin-bottom: 1.2rem; }
+
+#relation-panel .scroll-body blockquote {
+    margin: 2rem 0;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(0, 122, 255, 0.5);
+    color: rgba(255, 255, 255, 0.88);
+    opacity: 0.95;
+    font-style: italic;
+}
+#relation-panel .scroll-body blockquote p {
+    margin: 0 0 0.8rem 0;
+}
 
 /* Colore specifico per la voce Blu */
 .blu { color: #007aff; font-weight: 600; }
 
-/* Stili per evidenziazione codice semplice */
-.code-kw { color: #7be1ff; font-weight: 700; }
-.code-num { color: #ffd580; }
-.language-cpp { display: block; white-space: pre; font-family: monospace; }
+/* Evidenziazione Codice */
+.code-kw { 
+    color: #56b6c2; 
+    font-weight: 700; 
+}
+
+.code-num { 
+    color: #d19a66; 
+}
+
+.code-comment { 
+    color: rgba(255, 255, 255, 0.35); 
+    font-style: italic;
+}
+
+.code-func { 
+    color: #61afef; 
+    font-weight: 500;
+}
+
+.code-str { 
+    color: #98c379; 
+}
+
+.language-cpp { 
+    display: block; 
+    white-space: pre; 
+    font-family: 'Courier New', monospace; 
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
 
 #relation-panel .scroll-body ul {
     padding-left: 1.2rem;
@@ -594,18 +641,36 @@ button {
 #relation-panel .scroll-body li::marker { color: #ffffff; }
 
 #relation-panel .scroll-body p {
-    margin: 2rem 0;
+    margin: 2.6rem 0;
     text-align: justify;
+}
+
+.relation-credits {
+    color: rgba(255, 255, 255, 0.35); 
+    line-height: 1.1;                 
+    margin-top: 1rem;
+}
+
+.relation-credits h2 {
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 0.2rem;            
+}
+
+.relation-credits p {
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0.15rem 0;                
 }
 
 #relation-panel .scroll-body img.relation-image {
     display: block;
     margin: 1rem auto 3rem auto;
-    max-width: 60%;
+    max-width: 100%;
+    width: auto;
     border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.6);
 }
 
+/* --- AGGIORNATO: DISTACCO CONTENITORE BLOCCO DI CODICE --- */
 #relation-panel .scroll-body pre { 
     background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(10,10,10,0.85));
     border-left: 6px solid rgba(255,255,255,0.06);
@@ -615,6 +680,8 @@ button {
     overflow: auto;
     color: #e6e6e6;
     position: relative;
+    margin-top: 2.5rem;    /* Spazio prima del codice */
+    margin-bottom: 2.5rem; /* Spazio dopo il codice */
 }
 
 #relation-panel .scroll-body code {

@@ -9,16 +9,13 @@
     <meta property="og:title" content="DUALISMO, Esperienza Interattiva di Manuela Traccitto" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="Un progetto interattivo che esplora il fragile legame tra logica ed emozione, traducendo la dinamica di un litigio umano attraverso movimenti delle mani, suoni e Arduino" />
-    <meta property="og:url" content="https://dualismo.netlify.app" />
-    <meta property="og:image" content="https://dualismo.netlify.app/preview.png" />
+    <meta property="og:url" content="https://dualismo.vercel.app" />
+    <meta property="og:image" content="https://dualismo.vercel.app/preview.png" />
     <meta property="og:site_name" content="DUALISMO" />
-------------------------------------------------------------------
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="DUALISMO, Esperienza Interattiva di Manuela Traccitto" />
     <meta name="twitter:description" content="Un progetto interattivo che esplora il fragile legame tra logica ed emozione, traducendo la dinamica di un litigio umano attraverso movimenti delle mani, suoni e Arduino" />
-    <meta name="twitter:image" content="https://dualismo.netlify.app/preview.png" />
---------------------------------------------------------------- -- 
-
+    <meta name="twitter:image" content="https://dualismo.vercel.app/preview.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
@@ -30,12 +27,12 @@
       <canvas id="particle-canvas" aria-hidden="true"></canvas>
       <div class="home-inner">
         <h1>DUALISMO</h1>
-        <p id="intro-text" class="home-text hidden">Progetto di Traccitto Manuela</p>
+        <p id="intro-text" class="home-text hidden">Logica ed Emozione</p>
       </div>
     </div>
 
-    <a id="relation-toggle" href="#" aria-label="Relazione">
-      <img src="pen.png" alt="Relazione" class="relation-icon">
+    <a id="relation-toggle" href="#" aria-label="Informazioni">
+      <img src="pen.png" alt="Informazioni" class="relation-icon">
     </a>
     <a id="audio-toggle" href="#" aria-label="Audio disattivato">
       <img src="volume off.png" alt="Audio off" class="audio-icon">
@@ -43,91 +40,112 @@
 <section id="relation-panel" class="hidden">
   <div class="relation-content">
     <div class="scroll-body">
-      <p>Il progetto Dualismo creato da Traccitto trasforma un conflitto psicologico in un'esperienza che si può vedere e ascoltare, simulando la dinamica di un litigio umano attraverso luci e suoni. L'opera mette in scena uno scontro basato sulla dialettica degli opposti, dove il linguaggio è fatto di frequenze sonore e forme geometriche che si modificano.</p>
-
-      <ul>
-        <li>Da un lato troviamo la Personalità Rossa, che rappresenta l'istinto e si esprime con suoni acuti e pungenti per comunicare un'emozione immediata.</li>
-        <li>Dall'altro c'è la Personalità Blu, che rappresenta la ragione e usa frequenze costanti e regolari, simbolo di controllo e logica.</li>
-      </ul>
-
-      <h3>L'interazione</h3>
+      <h1>DUALISMO</h1>
+      <p>Il progetto Dualismo trasforma un conflitto psicologico in un'esperienza che si può vedere e ascoltare, simulando la dinamica di un litigio umano attraverso luci e suoni. L'opera mette in scena uno scontro basato sulla dialettica degli opposti, dove il linguaggio è fatto di frequenze sonore e forme geometriche che si modificano.</p>
+      <p>Da un lato c'è la Personalità Blu, che rappresenta la ragione e usa frequenze costanti e regolari, simbolo di controllo e logica.</p>
+      <p>Dall'altro troviamo la Personalità Rossa, che rappresenta l'istinto e si esprime con suoni acuti e pungenti per comunicare un'emozione immediata.</p>
+      <p><img src="due personalità.png" alt="Due personalità" class="relation-image"></p>
+      <hr class="relation-divider">
+      <h2>L'interazione</h2>
       <p>Il controllo avviene tramite il movimento delle mani, tracciato da appositi sensori. Allontanando il pollice dall'indice si mima il gesto di aprire la bocca: più le dita si distanziano, più il suono diventa forte e la forma visiva sullo schermo si ingrandisce. Questa interazione si può vivere in due modi, ovvero da soli, controllando l'istinto con una mano e la ragione con l'altra per mettere in scena una lotta interiore, oppure in due giocatori, dando vita a una vera e propria discussione tra due persone.</p>
-
-      <h3>Il cuore del litigio</h3>
       <p>Il cuore del litigio si esprime attraverso il modo in cui i due elementi invadono lo spazio dell'altro. Il cerchio visivo perde la sua forma regolare e mostra bordi frastagliati che descrivono graficamente l'alzarsi dei toni. Chi invade il territorio dell'avversario diventa più aggressivo, ma nel momento in cui le mani dei partecipanti si allontanano, la tensione svanisce e le forme tornano geometricamente calme, simulando la pace dopo un litigio.</p>
-
-      <h3>INTEGRAZIONE CON ARDUINO (opzionale)</h3>
+      <hr class="relation-divider">
+      <h2>AUDIO</h2>
+      <p>Il suono viene generato interamente in sintesi sonora attraverso il codice permettendo alle frequenze di modificarsi istantaneamente in base ai movimenti delle mani.Per ogni mano viene riprodotti due oscillatori sovrapposti, uno dei due è leggermente più acuto o più grave rispetto all'altro. </p>
+      <p>L'audio segue i movimenti nello spazio, muovendo la mano verso l'alto o verso il basso cambia l'altezza della voce (più grave o più acuta). Muovendola invece a destra o a sinistra, il suono si sposta fisicamente nelle casse della stanza. </p>
+      <hr class="relation-divider">
+      <h2>INTEGRAZIONE CON ARDUINO (opzionale)</h2>
       <p>Infine, è opzionale l'uso di Arduino e i led, che portano l'esperienza fuori dallo schermo e dentro la stanza. L'ambiente viene diviso a metà dalle luci rosse e blu, che si fanno più intense e si spostano verso il centro man mano che i partecipanti "parlano" aprendo le dita. Quando le due personalità si scontrano e si sovrappongono, il sistema genera un flash luminoso, segnando il culmine dello scontro.</p>
-
-      <p>Dualismo esplora il fragile legame tra logica ed emozione, usando un'estetica semplice per far riflettere su come il confronto non debba portare alla distruzione dell'altro, ma alla comprensione della tensione che nasce da ogni incontro.</p>
-
-      <h3>CODICE ARDUINO</h3>
+      <h3>COMPONENTI HARDWARE NECESSARI:</h3>
+      <ul>
+        <li><strong>Scheda Arduino (Arduino Uno o Nano):</strong> Riceve i dati inviati dal computer e si occupa di impartire i comandi alla striscia luminosa.</li>
+        <li><strong>Striscia LED Indirizzabile (Modello WS2812B / NeoPixel):</strong> Una striscia da <strong>200 LED</strong>. Ogni singolo LED può essere controllato in modo indipendente.</li>
+        <li><strong>Alimentatore Esterno da 5V:</strong> È necessario un alimentatore esterno dedicato per evitare surriscaldamenti e garantire la massima luminosità dei colori.</li>
+        <li><strong>Cavo USB:</strong> Collega Arduino al computer, permettendo il passaggio continuo di dati in tempo reale.</li>
+      </ul>
+      <h3>CODICE ARDUINO:</h2>
       <div class="relation-code-wrap">
         <button id="copy-arduino-code" class="copy-code-btn" type="button" aria-label="Copia codice Arduino">
           <img src="copy.png" alt="Copia" class="copy-icon">
           <span class="copy-label">Copia</span>
         </button>
-        <pre><code>#include 
+        <pre><code class="language-cpp"><span class="code-kw">#include</span> <span class="code-str">&lt;Adafruit_NeoPixel.h&gt;</span>
 
-#define PIN        6
-#define NUMPIXELS 200 
+<span class="code-kw">#define</span> PIN        <span class="code-num">6</span>
+<span class="code-kw">#define</span> NUMPIXELS <span class="code-num">200</span> 
 
 Adafruit_NeoPixel strip(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-void setup() {
-  Serial.begin(9600);
-  strip.begin();
-  strip.setBrightness(150);
-  strip.show();
+<span class="code-kw">void</span> <span class="code-func">setup</span>() {
+  <span class="code-func">Serial</span>.<span class="code-func">begin</span>(<span class="code-num">9600</span>);
+  strip.<span class="code-func">begin</span>();
+  strip.<span class="code-func">setBrightness</span>(<span class="code-num">150</span>);
+  strip.<span class="code-func">show</span>();
 }
 
-void loop() {
-  if (Serial.available() >= 3) {
-    int valSX = Serial.read(); 
-    int valDX = Serial.read(); 
-    int ins = Serial.read();
+<span class="code-kw">void</span> <span class="code-func">loop</span>() {
+  <span class="code-kw">if</span> (<span class="code-func">Serial</span>.<span class="code-func">available</span>() &gt;= <span class="code-num">3</span>) {
+    <span class="code-kw">int</span> valSX = <span class="code-func">Serial</span>.<span class="code-func">read</span>(); 
+    <span class="code-kw">int</span> valDX = <span class="code-func">Serial</span>.<span class="code-func">read</span>(); 
+    <span class="code-kw">int</span> ins = <span class="code-func">Serial</span>.<span class="code-func">read</span>();
 
-    strip.clear();
+    strip.<span class="code-func">clear</span>();
 
-    //MANO SINISTRA
-    int qSX = (valSX > 100) ? valSX - 101 : valSX;
-    uint32_t colSX = (valSX > 100) ? strip.Color(150, 0, 255) : strip.Color(255, 0, 0);
+    <span class="code-comment">//MANO SINISTRA</span>
+    <span class="code-kw">int</span> qSX = (valSX &gt; <span class="code-num">100</span>) ? valSX - <span class="code-num">101</span> : valSX;
+    <span class="code-kw">uint32_t</span> colSX = (valSX &gt; <span class="code-num">100</span>) ? strip.<span class="code-func">Color</span>(<span class="code-num">150</span>, <span class="code-num">0</span>, <span class="code-num">255</span>) : strip.<span class="code-func">Color</span>(<span class="code-num">255</span>, <span class="code-num">0</span>, <span class="code-num">0</span>);
 
-    //MANO DESTRA 
-    int qDX = (valDX > 100) ? valDX - 101 : valDX;
-    uint32_t colDX = (valDX > 100) ? strip.Color(0, 255, 0) : strip.Color(0, 0, 255);
+    <span class="code-comment">//MANO DESTRA</span> 
+    <span class="code-kw">int</span> qDX = (valDX &gt; <span class="code-num">100</span>) ? valDX - <span class="code-num">101</span> : valDX;
+    <span class="code-kw">uint32_t</span> colDX = (valDX &gt; <span class="code-num">100</span>) ? strip.<span class="code-func">Color</span>(<span class="code-num">0</span>, <span class="code-num">255</span>, <span class="code-num">0</span>) : strip.<span class="code-func">Color</span>(<span class="code-num">0</span>, <span class="code-num">0</span>, <span class="code-num">255</span>);
 
-    //DISEGNO SINISTRA (0 -> 100) ---
-    if (qSX > 0) {
-      for (int i = 0; i  0) ? random(150, 255) : 255;
-          strip.setPixelColor(i, applyBrightness(colSX, br));
-        }
+    <span class="code-comment">//DISEGNO SINISTRA (0 -&gt; 100) ---</span>
+    <span class="code-kw">if</span> (qSX &gt; <span class="code-num">0</span>) {
+      <span class="code-kw">for</span> (<span class="code-kw">int</span> i = <span class="code-num">0</span>; i &lt; qSX &amp;&amp; i &lt; <span class="code-num">100</span>; i++) {
+        <span class="code-kw">int</span> br = (qSX &gt; <span class="code-num">0</span>) ? <span class="code-func">random</span>(<span class="code-num">150</span>, <span class="code-num">255</span>) : <span class="code-num">255</span>;
+        strip.<span class="code-func">setPixelColor</span>(i, <span class="code-func">applyBrightness</span>(colSX, br));
       }
     }
 
-    //DISEGNO DESTRA (199 -> 100) 
-    if (qDX > 0) {
-      for (int i = 0; i  0) ? random(150, 255) : 255;
-          strip.setPixelColor(currentLed, applyBrightness(colDX, br));
-        }
+    <span class="code-comment">//DISEGNO DESTRA (199 -&gt; 100)</span> 
+    <span class="code-kw">if</span> (qDX &gt; <span class="code-num">0</span>) {
+      <span class="code-kw">for</span> (<span class="code-kw">int</span> i = <span class="code-num">199</span>; i &gt;= <span class="code-num">200</span> - qDX &amp;&amp; i &gt;= <span class="code-num">100</span>; i--) {
+        <span class="code-kw">int</span> currentLed = i;
+        <span class="code-kw">int</span> br = (qDX &gt; <span class="code-num">0</span>) ? <span class="code-func">random</span>(<span class="code-num">150</span>, <span class="code-num">255</span>) : <span class="code-num">255</span>;
+        strip.<span class="code-func">setPixelColor</span>(currentLed, <span class="code-func">applyBrightness</span>(colDX, br));
       }
     }
 
-    // CENTRALE 
-    if (qSX >= 98 && qDX >= 98) {
-       strip.setPixelColor(99, colSX);
-       strip.setPixelColor(100, colDX);
+    <span class="code-comment">// CENTRALE</span> 
+    <span class="code-kw">if</span> (qSX &gt;= <span class="code-num">98</span> &amp;&amp; qDX &gt;= <span class="code-num">98</span>) {
+       strip.<span class="code-func">setPixelColor</span>(<span class="code-num">99</span>, colSX);
+       strip.<span class="code-func">setPixelColor</span>(<span class="code-num">100</span>, colDX);
     }
 
-    strip.show();
+    strip.<span class="code-func">show</span>();
   }
 }
 
-uint32_t applyBrightness(uint32_t c, int b) {
-  uint8_t r = (uint8_t)(c >> 16), g = (uint8_t)(c >> 8), bl = (uint8_t)c;
-  return strip.Color((r * b) / 255, (g * b) / 255, (bl * b) / 255);
-}
-</code></pre>
+<span class="code-kw">uint32_t</span> <span class="code-func">applyBrightness</span>(<span class="code-kw">uint32_t</span> c, <span class="code-kw">int</span> b) {
+  <span class="code-kw">uint8_t</span> r = (<span class="code-kw">uint8_t</span>)(c &gt;&gt; <span class="code-num">16</span>), g = (<span class="code-kw">uint8_t</span>)(c &gt;&gt; <span class="code-num">8</span>), bl = (<span class="code-kw">uint8_t</span>)c;
+  <span class="code-kw">return</span> strip.<span class="code-func">Color</span>((r * b) / <span class="code-num">255</span>, (g * b) / <span class="code-num">255</span>, (bl * b) / <span class="code-num">255</span>);
+}</code></pre>
+      </div>
+       <hr class="relation-divider">
+      <h4>RENDER 3D DEL CONCEPT</h4>
+      <p><img src="render.png" alt="Due personalità" class="relation-image"></p>
+      <hr class="relation-divider">
+      <blockquote>
+        <p>Dualismo esplora il fragile legame tra logica ed emozione, usando un'estetica semplice per far riflettere su come il confronto non debba portare alla distruzione dell'altro, ma alla comprensione della tensione che nasce da ogni incontro</p>
+      </blockquote>
+      <hr class="relation-divider">
+      <div class="relation-credits">
+        <h4>CREDITI</h4>
+        <h4>Concept, Codice e Sviluppo: Manuela Traccitto</h4>
+        <h4>Istituzione: Accademia di Belle Arti di Frosinone, corso Media Art, 2026</h4>
+        <h4>Licenza d'uso: Quest'opera è protetta da licenza internazionale <strong>CC BY-NC-ND 4.0</strong>.</h4>
+        <h5><i>Puoi liberamente scaricare e condividere questo progetto, a patto di attribuirne la paternità. Non è consentito modificarlo in alcun modo né utilizzarlo per fini commerciali.</i></h5>
+      </blockquote>
       </div>
     </div>
   </div>
@@ -412,181 +430,7 @@ uint32_t applyBrightness(uint32_t c, int b) {
           updateParticles();
         }
 
-          // Carica e rende il contenuto Markdown della relazione
-          function escapeHtml(str) {
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-          }
-
-          function highlightCpp(code) {
-            // semplice evidenziazione per parole chiave C/C++
-            let s = escapeHtml(code);
-            const keywords = ['#include','#define','int','void','uint8_t','uint32_t','for','if','else','return','while'];
-            keywords.forEach(k => {
-              const re = new RegExp('\\b' + k.replace(/[#]/g, '\\#') + '\\b', 'g');
-              s = s.replace(re, '<span class="code-kw">' + k + '</span>');
-            });
-            // evidenzia i numeri
-            s = s.replace(/(\b\d+\b)/g, '<span class="code-num">$1</span>');
-            return s;
-          }
-
-          function mdToHtml(md) {
-            md = md.replace(/\r/g, '');
-            const lines = md.split('\n');
-            let html = '';
-            let inList = false;
-            let inCode = false;
-            let codeBuffer = '';
-
-            function renderInline(text) {
-              const startToken = '___BLU_START___';
-              const endToken = '___BLU_END___';
-              // usa split/join per evitare problemi con i delimitatori / nelle regex
-              let t = text.split('<span class="blu">').join(startToken).split('</span>').join(endToken);
-              t = escapeHtml(t);
-              t = t.split(startToken).join('<span class="blu">').split(endToken).join('</span>');
-              return t;
-            }
-
-            for (let rawLine of lines) {
-              const line = rawLine;
-
-              // gestisci immagine in formato Markdown: ![alt](src)
-              const imgMatch = line.match(/^!\[(.*?)\]\((.*?)\)/);
-              if (imgMatch) {
-                const alt = escapeHtml(imgMatch[1]);
-                const src = encodeURI(imgMatch[2]);
-                html += '<p><img src="' + src + '" alt="' + alt + '" class="relation-image"></p>';
-                continue;
-              }
-
-              if (line.startsWith('```')) {
-                if (!inCode) { inCode = true; codeBuffer = ''; continue; }
-                // chiudi code block
-                inCode = false;
-                html += '<pre><code class="language-cpp">' + highlightCpp(codeBuffer) + '</code></pre>';
-                continue;
-              }
-
-              if (inCode) { codeBuffer += line + '\n'; continue; }
-
-              if (/^#{1,6}\s+/.test(line)) {
-                if (inList) { html += '</ul>'; inList = false; }
-                const level = line.match(/^#+/)[0].length;
-                const text = line.replace(/^#+\s+/, '');
-                html += '<h' + level + '>' + renderInline(text) + '</h' + level + '>';
-                continue;
-              }
-
-              if (/^\s*-\s+/.test(line)) {
-                if (!inList) { inList = true; html += '<ul>'; }
-                const item = line.replace(/^\s*-\s+/, '');
-                html += '<li>' + renderInline(item) + '</li>';
-                continue;
-              }
-
-              if (/^\s*([-*_])\1{2,}\s*$/.test(line)) {
-                if (inList) { html += '</ul>'; inList = false; }
-                html += '<hr class="relation-divider">';
-                continue;
-              }
-
-              if (line.trim() === '') {
-                if (inList) { html += '</ul>'; inList = false; }
-                continue;
-              }
-
-              html += '<p>' + renderInline(line) + '</p>';
-            }
-
-            if (inList) html += '</ul>';
-
-            // Avvolgi il footer finale Markdown sotto l'ultimo separatore per renderlo compatto e opaco
-            const footerSeparator = '<hr class="relation-divider">';
-            const parts = html.split(footerSeparator);
-            if (parts.length > 1) {
-              const beforeFooter = parts.slice(0, -1).join(footerSeparator);
-              let footerHtml = parts.slice(-1)[0].trim();
-              if (footerHtml.startsWith('<p>')) {
-                footerHtml = '<div class="relation-footer">' + footerHtml + '</div>';
-                html = beforeFooter + footerSeparator + footerHtml;
-              }
-            }
-
-            return html;
-          }
-
-          function attachArduinoCopyButton(container) {
-            const codeBlocks = Array.from(container.querySelectorAll('pre code'));
-            if (!codeBlocks.length) return;
-
-            const arduinoBlock = codeBlocks.find(code => /#include|void setup\(|void loop\(/.test(code.innerText)) || codeBlocks[codeBlocks.length - 1];
-            const pre = arduinoBlock.closest('pre');
-            if (!pre) return;
-
-            const wrapper = document.createElement('div');
-            wrapper.className = 'relation-code-wrap';
-            const button = document.createElement('button');
-            button.id = 'copy-arduino-code';
-            button.type = 'button';
-            button.className = 'copy-code-btn';
-            button.setAttribute('aria-label', 'Copia codice Arduino');
-            button.innerHTML = '<img src="copy.png" alt="Copia" class="copy-icon"><span class="copy-label">Copia</span>';
-
-            pre.parentNode.insertBefore(wrapper, pre);
-            wrapper.appendChild(button);
-            wrapper.appendChild(pre);
-
-            function updateCopyButtonAppearance(button, icon, label) {
-              const iconEl = button.querySelector('.copy-icon');
-              const labelEl = button.querySelector('.copy-label');
-              if (iconEl) iconEl.src = icon;
-              if (labelEl) labelEl.textContent = label;
-            }
-
-            button.addEventListener('click', async () => {
-              const codeText = arduinoBlock.innerText.trim();
-              const originalLabel = button.querySelector('.copy-label')?.textContent || 'Copia';
-              try {
-                await navigator.clipboard.writeText(codeText);
-                updateCopyButtonAppearance(button, 'check.png', 'Copiato');
-                setTimeout(() => {
-                  updateCopyButtonAppearance(button, 'copy.png', originalLabel);
-                }, 1400);
-              } catch (err) {
-                const textarea = document.createElement('textarea');
-                textarea.value = codeText;
-                textarea.style.position = 'fixed';
-                textarea.style.opacity = '0';
-                document.body.appendChild(textarea);
-                textarea.focus();
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                updateCopyButtonAppearance(button, 'check.png', 'Copiato');
-                setTimeout(() => {
-                  updateCopyButtonAppearance(button, 'copy.png', originalLabel);
-                }, 1400);
-              }
-            });
-          }
-
-          function renderRelationMarkdown() {
-            const container = document.querySelector('#relation-panel .scroll-body');
-            if (!container) return;
-            fetch('relazione.md').then(r => {
-              if (!r.ok) throw new Error('Impossibile caricare relazione.md');
-              return r.text();
-            }).then(md => {
-              container.innerHTML = mdToHtml(md);
-              attachArduinoCopyButton(container);
-            }).catch(err => {
-              console.log('Errore caricamento relazione.md:', err);
-            });
-          }
-
-          // Esegui il rendering del Markdown appena la UI è pronta
-          renderRelationMarkdown();
+          // Il contenuto della relazione è incorporato direttamente in HTML statico.
 
       }
 
